@@ -11,8 +11,8 @@ from bson import json_util
 app = Flask(__name__)
 
 """ Database connection settings"""
-dbName='my_api_va'
-dbPass='KeepThisS3cr3t'
+dbName = 'my_api_va'
+dbPass = 'KeepThisS3cr3t'
 app.config["MONGODB_SETTINGS"] = {'DB':dbName }
 app.config["SECRET_KEY"] = dbPass
 db = MongoEngine(app)
@@ -20,55 +20,65 @@ db = MongoEngine(app)
 
 """ Mongodb collections"""
 class User(db.Document):
+
+    genderCode = {'F': 'female',
+                  'M': 'male'}
+
+    activityCode = {'BIK': 'bike riding',
+                    'JOG': 'jogging',
+                    'WALK': 'walking',
+                    'SKATE':'skating',
+                    'OTH':'other'}
+
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
-    id_user = db.StringField(max_length = 10, required = True)
-    age = db.StringField(max_length = 3, required = False)
-    disability = db.StringField(max_length = 255, required = False)
-    activity = db.StringField(max_length = 255, required = False)
+    age = db.IntField(required = False)
+    gender = db.StringField(max_length = 6, choices = genderCode.keys() , required = False)
+    activity = db.StringField(max_length = 20, choices = activityCode.keys() , required = False)
 
     def get_absolute_url(self):
-        return url_for('post', kwargs={"id_user": self.id_user})
+        return url_for('post', kwargs={"_id": self._id})
 
     def __unicode__(self):
-        return self.id_user
+        return self._id
 
     meta = {
         'allow_inheritance': True,
-        'indexes': ['-created_at', 'id_user'],
+        'indexes': ['-created_at', '_id'],
         'ordering': ['-created_at']
     }
 
 
-""" App routes """
+""" User routes """
 @app.route('/')
 def api_root():
     return 'Welcome API Bicycle Race :)'
-    
+
 @app.route('/users' , methods = ['GET', 'POST'])
 def api_users():
     if request.method == 'GET':
         return User.objects.all().to_json()
     elif request.method == 'POST':
-         mydata=request.json
-         if request.json:
+        mydata=request.json
+        if request.json:
+            user = User.from_json(json.dumps(request.json))
+            user.save()
             return "Thanks. Your age is %s" % mydata.get("age")
-         else:
+        else:
             return "no json received"
 
 #prueba para guardar usuarios
 @app.route('/users_save' , methods = ['POST'])
 def api_users_save():
-	message=request.form['message']
-	if not message:
-		message="ejercitarse"
-	user = User(id_user='13')
-	user.age = '24'
-	user.disability='ninguna'
-	user.activity=message
+	#message=request.form['message']
+	#if not message:
+	#	message="ejercitarse"
+	user = User()
+	user.age = 55
+	user.activity='JOG'
 	user.save()
-	return "ready :D "+message
+	return "ready :D "
 
-#app
+""" App main """
 if __name__ == '__main__':
 	port = int( os.environ.get("PORT", 5000) )
 	app.run( host = "0.0.0.0", port = port, debug = True )
