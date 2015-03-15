@@ -9,3 +9,7 @@ pycharm.sh &
 
 #github
 https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/#platform-linux
+http://rogerdudler.github.io/git-guide/index.es.html
+
+#test API
+https://www.runscope.com/signup
