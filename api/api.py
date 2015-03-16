@@ -5,7 +5,9 @@ from flask import Flask, url_for, request, Response, json, jsonify
 from flask.ext.script import Manager, Server
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.mongoengine.wtf import model_form
+from flask import abort
 from bson import json_util
+from bson.objectid import ObjectId
 
 
 app = Flask(__name__)
@@ -24,6 +26,18 @@ class User(db.Document):
     genderCode = {'F': 'female',
                   'M': 'male'}
 
+    disabilityCode = {'PHY': 'physical',
+                      'HEA': 'hearing',
+                      'VIS': 'visual',
+                      'MEN':'mental',
+                      'OTH':'other'}
+
+    healthRiskCode = {'CARD': 'cardiovascular',
+                      'BREA': 'breathing',
+                      'INFE': 'infectious',
+                      'BJM':'bones joints muscles',
+                      'OTH':'other'}
+
     activityCode = {'BIK': 'bike riding',
                     'JOG': 'jogging',
                     'WALK': 'walking',
@@ -33,7 +47,9 @@ class User(db.Document):
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
     age = db.IntField(required = False)
     gender = db.StringField(max_length = 6, choices = genderCode.keys() , required = False)
-    activity = db.StringField(max_length = 20, choices = activityCode.keys() , required = False)
+    disability = db.StringField(max_length = 12, choices = disabilityCode.keys() , required = False)
+    healthRisk = db.StringField(max_length = 22, choices = healthRiskCode.keys() , required = False)
+    activity = db.StringField(max_length = 12, choices = activityCode.keys() , required = False)
 
     def get_absolute_url(self):
         return url_for('post', kwargs={"_id": self._id})
@@ -41,42 +57,33 @@ class User(db.Document):
     def __unicode__(self):
         return self._id
 
-    meta = {
-        'allow_inheritance': True,
-        'indexes': ['-created_at', '_id'],
-        'ordering': ['-created_at']
-    }
-
-
-""" User routes """
+""" App routes """
 @app.route('/')
 def api_root():
     return 'Welcome API Bicycle Race :)'
 
-@app.route('/users' , methods = ['GET', 'POST'])
-def api_users():
-    if request.method == 'GET':
-        return User.objects.all().to_json()
-    elif request.method == 'POST':
-        mydata=request.json
-        if request.json:
-            user = User.from_json(json.dumps(request.json))
-            user.save()
-            return "Thanks. Your age is %s" % mydata.get("age")
-        else:
-            return "no json received"
+@app.route('/users/' , methods = ['GET'])
+def get_users():
+    if request.args:
+        if request.args.get('age'):
+            return jsonify({'user':User.objects(age=request.args.get('age'))})
+        if request.args.get('gender'):
+            return jsonify({'user':User.objects(gender=request.args.get('gender'))})
+        if request.args.get('disability'):
+            return jsonify({'user':User.objects(disability=request.args.get('disability'))})
+        if request.args.get('healthRisk'):
+            return jsonify({'user':User.objects(healthRisk=request.args.get('healthRisk'))})
+        if request.args.get('activity'):
+            return jsonify({'user':User.objects(activity=request.args.get('activity'))})
+    else:
+        return jsonify({'user':User.objects.all()})     #or return User.objects.all().to_json()
 
-#prueba para guardar usuarios
-@app.route('/users_save' , methods = ['POST'])
-def api_users_save():
-	#message=request.form['message']
-	#if not message:
-	#	message="ejercitarse"
-	user = User()
-	user.age = 55
-	user.activity='JOG'
-	user.save()
-	return "ready :D "
+@app.route('/users/', methods=['POST'])
+def new_user():
+    if request.json:
+        user = User.from_json(json.dumps(request.json))
+        user.save()
+        return jsonify({})
 
 """ App main """
 if __name__ == '__main__':

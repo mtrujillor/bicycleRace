@@ -1,5 +1,3 @@
-separar operaciones BD y routes
-organizar proyecto
 implementar servicios:
 -organizar modelo
 -funciones
@@ -7,5 +5,6 @@ implementar servicios:
 datos prueba
 manejo de errores [curso oreilly]
 hacer pagina sencilla que consume api
+separar operaciones BD y routes
 organizar la estructura del proyecto (carpetas y archivos
 
