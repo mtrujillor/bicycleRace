@@ -8,14 +8,3 @@ source bicycleRace/bin/activate
 #pycharmr
 pycharm.sh &
 
-REFERENCES
-#github
-http://rogerdudler.github.io/git-guide/index.es.html
-https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/#platform-linux
-https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
-
-#test API
-https://www.runscope.com/signup
-
-#Flask type data
-https://flask-mongoengine.readthedocs.org/en/latest/

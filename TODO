@@ -1,3 +1,5 @@
+definir relaciones
+consulta de routes por usuario
 implementar servicios:
 -organizar modelo
 -funciones
@@ -7,4 +9,4 @@ manejo de errores [curso oreilly]
 hacer pagina sencilla que consume api
 separar operaciones BD y routes
 organizar la estructura del proyecto (carpetas y archivos
-
+revisar mongoGEO para las coordenadas

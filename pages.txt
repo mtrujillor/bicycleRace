@@ -1,0 +1,22 @@
+#github
+http://rogerdudler.github.io/git-guide/index.es.html
+https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/#platform-linux
+https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+
+#test API
+https://www.runscope.com/signup
+
+#Flask type data
+https://flask-mongoengine.readthedocs.org/en/latest/
+
+#mongo
+* Diseño de datos en mongo db
+http://docs.mongodb.org/manual/core/data-model-design/
+
+*Diccionarios, documentos y embebidos en mongodb
+https://mongoengine-odm.readthedocs.org/guide/defining-documents.html
+
+
+#API things
+page like
+https://dweet.io/play/
