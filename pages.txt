@@ -27,3 +27,6 @@ https://www.youtube.com/watch?v=QVUMpvS4PQo
 
 Querying
 http://docs.mongoengine.org/en/latest/apireference.html
+
+VNCSERVER
+https://www.linode.com/docs/applications/remote-desktop/using-vnc-to-operate-a-desktop-on-ubuntu-12-04
