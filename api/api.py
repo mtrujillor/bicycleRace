@@ -21,7 +21,7 @@ db = MongoEngine(app)
 
 
 """ Mongodb collections"""
-class Round(db.EmbeddedDocument):
+class Location(db.EmbeddedDocument):
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
     coordinates = db.StringField(max_length = 25, required = True) #example 41 24.2028, 2 10.4418
 
@@ -55,7 +55,7 @@ class User(db.Document):
     disability = db.StringField(max_length = 12, choices = disabilityCode.keys() , required = False)
     healthRisk = db.StringField(max_length = 22, choices = healthRiskCode.keys() , required = False)
     activity = db.StringField(max_length = 12, choices = activityCode.keys() , required = False)
-    rounds = db.ListField(db.EmbeddedDocumentField(Round))
+    locations = db.ListField(db.EmbeddedDocumentField(Location))
 
 
     def get_absolute_url(self):
@@ -70,52 +70,52 @@ class User(db.Document):
 def api_root():
     return 'Welcome API Bicycle Race :)'
 
-@app.route('/users/' , methods = ['GET'])
+@app.route('/users' , methods = ['GET'])
 def get_users():
     if request.args:
         if request.args.get('user_id'):
-            return jsonify({'user':User.objects.get_or_404(id=request.args.get('user_id'))})
-        if request.args.get('age'):
-            return jsonify({'user':User.objects.get_or_404(age=request.args.get('age'))})
-        if request.args.get('gender'):
-            return jsonify({'user':User.objects.get_or_404(gender=request.args.get('gender'))})
-        if request.args.get('disability'):
-            return jsonify({'user':User.objects.get_or_404(disability=request.args.get('disability'))})
-        if request.args.get('healthRisk'):
-            return jsonify({'user':User.objects.get_or_404(healthRisk=request.args.get('healthRisk'))})
-        if request.args.get('activity'):
-            return jsonify({'user':User.objects.get_or_404(activity=request.args.get('activity'))})
+            return jsonify({'user':User.objects(id=request.args.get('user_id'))})
+        elif request.args.get('age'):
+            return jsonify({'user':User.objects(age=request.args.get('age'))})
+        elif request.args.get('gender'):
+            return jsonify({'user':User.objects(gender=request.args.get('gender'))})
+        elif request.args.get('disability'):
+            return jsonify({'user':User.objects(disability=request.args.get('disability'))})
+        elif request.args.get('healthRisk'):
+            return jsonify({'user':User.objects(healthRisk=request.args.get('healthRisk'))})
+        elif request.args.get('activity'):
+            return jsonify({'user':User.objects(activity=request.args.get('activity'))})
     else:
         return jsonify({'user':User.objects.all()})     #or return User.objects.all().to_json()
 
-@app.route('/users/', methods=['POST'])
+@app.route('/users', methods=['POST'])
 def new_user():
     if request.json:
         user = User.from_json(json.dumps(request.json))
         user.save()
-        return jsonify({})
+        return "User created <br>"+json.dumps(request.json)
 
-@app.route('/users/rounds/' , methods = ['GET'])
-def get_rounds():
+@app.route('/users/locations' , methods = ['GET'])
+def get_locations():
     if request.args:
-        if request.args.get('coordinates'):
-            return jsonify({'round':User.objects.get_or_404(coordinates=request.args.get('coordinates'))})
+        if request.args.get('user_id'):
+            for user in User.objects(id=request.args.get('user_id')):
+                return jsonify({'locations':user.locations})
+            #return jsonify({'location':User.objects(id=request.args.get('user_id'))})
+    """elif request.args.get('coordinates'):
+            return jsonify({'location':User.objects(coordinates=request.args.get('coordinates'))})
     else:
-        return jsonify({'rounds':Round.objects.all()})     #or return User.objects.all().to_json()
+        for user in User.objects.all():
+            return jsonify({'location':user.locations}) """
 
-@app.route('/users/rounds/', methods=['POST'])
-def new_round():
+@app.route('/users/locations', methods=['POST'])
+def new_location():
     if request.json:
-        print "band1"
         user = User.objects(id=request.args.get('user_id')).get()
-        print "band2"
-        r = Round.from_json(json.dumps(request.json))
-        print "band3"
-        user.rounds.append(r)
-        print "band4"
+        r = Location.from_json(json.dumps(request.json))
+        user.locations.append(r)
         user.save()
-        print "band4"
-        return jsonify({})
+        return "Location created <br>"+json.dumps(request.json)
 
 
 """ App main """

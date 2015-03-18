@@ -20,3 +20,10 @@ https://mongoengine-odm.readthedocs.org/guide/defining-documents.html
 #API things
 page like
 https://dweet.io/play/
+
+DOCUMMENT
+Standford Tool
+https://www.youtube.com/watch?v=QVUMpvS4PQo
+
+Querying
+http://docs.mongoengine.org/en/latest/apireference.html
