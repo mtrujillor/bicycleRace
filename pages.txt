@@ -30,3 +30,10 @@ http://docs.mongoengine.org/en/latest/apireference.html
 
 VNCSERVER
 https://www.linode.com/docs/applications/remote-desktop/using-vnc-to-operate-a-desktop-on-ubuntu-12-04
+
+API DOCUMENT
+Design -> http://apiary.io/how-it-works
+http://petstore.swagger.io/#!/pet/addPet
+http://flask-restplus.readthedocs.org/en/latest/documenting.html
+https://github.com/rantav/flask-restful-swagger
+
