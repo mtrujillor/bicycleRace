@@ -1,0 +1,27 @@
+TODO
+mongogeo
+foto para happends + codigos de estado + "tags"
+desarrollar test para cada recurso
+configurar en nube
+validaciones
+manejo de errores 
+
+DOCUMENTACION
+organizar indices de retorno
+
+
+CONSTRUCCION API
+revisar mongorest
+consulta de routes por usuario
+implementar servicios:
+-organizar modelo
+-funciones
+- pruebas
+datos prueba
+manejo de errores [curso oreilly]
+hacer pagina sencilla que consume api
+separar operaciones BD y routes
+organizar la estructura del proyecto (carpetas y archivos
+revisar mongoGEO para las coordenadas
+
+VALIDACION

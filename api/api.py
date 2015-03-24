@@ -8,9 +8,15 @@ from flask.ext.mongoengine.wtf import model_form
 from flask import abort
 from bson import json_util
 from bson.objectid import ObjectId
+from flask.ext.api import FlaskAPI, status, exceptions
+from flask.ext.api.renderers import JSONRenderer
 
+app = FlaskAPI(__name__)
 
-app = Flask(__name__)
+app.config['DEFAULT_RENDERERS'] = [
+    'flask.ext.api.renderers.JSONRenderer',
+    'flask.ext.api.renderers.BrowsableAPIRenderer',
+]
 
 """ Database connection settings"""
 dbName = 'my_api_va'
@@ -40,12 +46,10 @@ class Happen(db.EmbeddedDocument):
 
 class User(db.Document):
 
-    genderCode = {'F': 'female',
-                  'M': 'male'}
-
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
     age = db.IntField(required = False)
-    gender = db.StringField(max_length = 6, choices = genderCode.keys() , required = False)
+    gender = db.StringField(max_length = 6, choices = ('female',
+                                                        'male'), required = False)
     disability = db.StringField(max_length = 12, choices = ('physical',
                                                             'hearing',
                                                             'visual',
@@ -76,31 +80,38 @@ class User(db.Document):
 def api_root():
     return 'Welcome API Bicycle Race :)'
 
-
 @app.route('/users' , methods = ['GET'])
 def get_users():
     if request.args:
         if request.args.get('user_id'):
-            return jsonify({'user':User.objects(id=request.args.get('user_id'))})
+            return json.loads(json.dumps({'user':User.objects(id=request.args.get('user_id'))})), status.HTTP_200_OK
         if request.args.get('age'):
-            return jsonify({'user':User.objects(age=request.args.get('age'))})
+            return json.loads(json.dumps({'user':User.objects(age=request.args.get('age'))})), status.HTTP_200_OK
         if request.args.get('gender'):
-            return jsonify({'user':User.objects(gender=request.args.get('gender'))})
+            return json.loads(json.dumps({'user':User.objects(gender=request.args.get('gender'))})), status.HTTP_200_OK
         if request.args.get('disability'):
-            return jsonify({'user':User.objects(disability=request.args.get('disability'))})
+            return json.loads(json.dumps({'user':User.objects(disability=request.args.get('disability'))})), status.HTTP_200_OK
         if request.args.get('healthRisk'):
-            return jsonify({'user':User.objects(healthRisk=request.args.get('healthRisk'))})
+            return json.loads(json.dumps({'user':User.objects(healthRisk=request.args.get('healthRisk'))})), status.HTTP_200_OK
         if request.args.get('activity'):
-            return jsonify({'user':User.objects(activity=request.args.get('activity'))})
-    """else:
-        return jsonify({'user':User.objects.all()})     #or return User.objects.all().to_json()"""
+            return json.loads(json.dumps({'user':User.objects(activity=request.args.get('activity'))})), status.HTTP_200_OK
+    else:
+        return json.loads(json.dumps(User.objects)), status.HTTP_200_OK
+        #return return jsonify(User.objects) #works but no pretty
+        #return Response(json.dumps(User.objects()),  mimetype='application/json') #works pretty with postman
+        #return json.dumps(User.objects,indent=4, separators=(',', ': '), ensure_ascii=False) #works but no pretty
 
 @app.route('/users', methods=['POST'])
 def new_user():
-    if request.json:
-        user = User.from_json(json.dumps(request.json))
+    print("band1")
+    if request.data:
+        print("band2")
+        user = User.from_json(json.dumps(request.data))
+        print("band3")
         user.save()
-        return "User created <br>"+json.dumps(request.json)
+        print("band4")
+        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+        #return "User created <br>"+json.loads(json.dumps(request.json))
 
 
 @app.route('/users/locations' , methods = ['GET'])
@@ -108,44 +119,36 @@ def get_locations():
     if request.args:
         if request.args.get('user_id'):
             for user in User.objects(id=request.args.get('user_id')):
-                return jsonify({'locations':user.locations})
-            #return jsonify({'location':User.objects(id=request.args.get('user_id'))})
-        #elif request.args.get('coordinates'):
-         #   return jsonify({'location':User.objects(coordinates=request.args.get('coordinates'))})
-    """else:
-        for user in User.objects(locations!=null):
-            return jsonify({'locations':user.locations})"""
+                return json.loads(json.dumps(user.locations)), status.HTTP_200_OK
+
 
 @app.route('/users/locations', methods=['POST'])
 def new_location():
-    if request.json:
+    if request.data:
         user = User.objects(id=request.args.get('user_id')).get()
-        r = Location.from_json(json.dumps(request.json))
+        r = Location.from_json(json.dumps(request.data))
         user.locations.append(r)
         user.save()
-        return "Location created <br>"+json.dumps(request.json)
-
+        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
 
 @app.route('/users/happends' , methods = ['GET'])
 def get_happends():
     if request.args:
         if request.args.get('user_id'):
             for user in User.objects(id=request.args.get('user_id')):
-                return jsonify({'happends':user.happends})
-        #if request.args.get('type'):
-        #    return jsonify({'user':User.happends(type=request.args.get('type'))})
+                return json.loads(json.dumps(user.happends)), status.HTTP_200_OK
     else:
         for user in User.objects.all():
-                return jsonify({'happends':user.happends})
+                return json.loads(json.dumps(user.happends)), status.HTTP_200_OK
 
 @app.route('/users/happends', methods=['POST'])
 def new_happend():
-    if request.json:
+    if request.data:
         user = User.objects(id=request.args.get('user_id')).get()
-        h = Happen.from_json(json.dumps(request.json))
+        h = Happen.from_json(json.dumps(request.data))
         user.happends.append(h)
         user.save()
-        return "Happend created <br>"+json.dumps(request.json)
+        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
 
 
 """ App main """

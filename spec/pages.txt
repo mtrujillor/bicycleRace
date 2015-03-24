@@ -1,0 +1,60 @@
+#github
+http://rogerdudler.github.io/git-guide/index.es.html
+https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/#platform-linux
+https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+
+#test API
+https://www.runscope.com/signup
+
+#Flask type data
+https://flask-mongoengine.readthedocs.org/en/latest/
+
+#mongo
+* Diseño de datos en mongo db
+http://docs.mongodb.org/manual/core/data-model-design/
+
+*Diccionarios, documentos y embebidos en mongodb
+https://mongoengine-odm.readthedocs.org/guide/defining-documents.html
+
+
+#API things
+page like
+https://dweet.io/play/
+
+DOCUMMENT
+Standford Tool
+https://www.youtube.com/watch?v=QVUMpvS4PQo
+
+Querying
+http://docs.mongoengine.org/en/latest/apireference.html
+
+VNCSERVER
+https://www.linode.com/docs/applications/remote-desktop/using-vnc-to-operate-a-desktop-on-ubuntu-12-04
+
+API DOCUMENT
+Design -> http://apiary.io/how-it-works
+http://petstore.swagger.io/#!/pet/addPet
+}http://flask-restplus.readthedocs.org/en/latest/documenting.html
+https://github.com/rantav/flask-restful-swagger
+
+FLASK RESTplus problems
+http://stackoverflow.com/questions/23981561/importerror-no-module-named-flask-ext-restless
+http://stackoverflow.com/questions/29073724/flask-restful-with-flask-wtf-forms-integration
+
+FLASK APP ON HEROKU
+http://spapas.github.io/2014/06/30/rest-flask-mongodb-heroku/
+
+PRESENTACION PROYECTO, like
+http://orange.biolab.si/
+
+SWAGGER DOCUMENTATION
+http://flask-restful.readthedocs.org/en/latest/quickstart.html
+https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#51-resource-listing
+http://stackoverflow.com/questions/21455055/swagger-api-documentation
+
+MONGOREST
+https://github.com/elasticsales/flask-mongorest
+https://github.com/matchbox/flask-mongorest-swagger/
+
+STATUS CODES
+http://www.django-rest-framework.org/api-guide/status-codes/

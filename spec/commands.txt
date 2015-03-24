@@ -1,0 +1,12 @@
+COMMANDS
+# Mongo
+sudo service mongod start
+
+# Virtualenv
+source bicycleRace/bin/activate
+
+#pycharmr
+pycharm.sh &
+
+#Teclado ubuntu es español
+sudo setxkbmap -model pc105 -layout latam
