@@ -1,6 +1,16 @@
 TODO
-mongogeo
-foto para happends + codigos de estado + "tags"
+Usuario
+	tipificar usuarios
+	happends
+		geo coordenada
+		foto para happends 
+		codigos de estado + "tags"
+Alerta
+
+Analizador
+
+formato de fecha
+		
 desarrollar test para cada recurso
 configurar en nube
 validaciones

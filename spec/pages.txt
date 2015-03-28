@@ -16,7 +16,6 @@ http://docs.mongodb.org/manual/core/data-model-design/
 *Diccionarios, documentos y embebidos en mongodb
 https://mongoengine-odm.readthedocs.org/guide/defining-documents.html
 
-
 #API things
 page like
 https://dweet.io/play/
@@ -58,3 +57,9 @@ https://github.com/matchbox/flask-mongorest-swagger/
 
 STATUS CODES
 http://www.django-rest-framework.org/api-guide/status-codes/
+
+MONGO-IMAGES
+http://docs.mongoengine.org/guide/gridfs.html
+
+UPLOAD FILES S3
+http://www.thefort.org/a/using-flask-flask-wtf-and-boto-to-handle-file-uploads-to-amazon-s3/

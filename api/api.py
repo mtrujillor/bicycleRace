@@ -10,6 +10,11 @@ from bson import json_util
 from bson.objectid import ObjectId
 from flask.ext.api import FlaskAPI, status, exceptions
 from flask.ext.api.renderers import JSONRenderer
+import tempfile
+import geojson
+from PIL import Image
+
+
 
 app = FlaskAPI(__name__)
 
@@ -29,19 +34,20 @@ db = MongoEngine(app)
 """ Mongodb collections"""
 class Location(db.EmbeddedDocument):
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
-    coordinates = db.StringField(max_length = 25, required = True) #example 41 24.2028, 2 10.4418
+    coordinates = db.PointField(required=True)
 
 
 class Happen(db.EmbeddedDocument):
 
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
-    coordinates = db.StringField(max_length = 25, required = False)
+    coordinates = db.PointField(required=False)
     type = db.StringField(max_length = 12, choices = ('mobility',
                                                       'security',
                                                       'service',
                                                       'other') , required = False)
     name = db.StringField(max_length = 115 , required = False)
     description = db.StringField(max_length = 255 , required = False)
+    photo = db.ImageField()
 
 
 class User(db.Document):
@@ -103,13 +109,9 @@ def get_users():
 
 @app.route('/users', methods=['POST'])
 def new_user():
-    print("band1")
     if request.data:
-        print("band2")
         user = User.from_json(json.dumps(request.data))
-        print("band3")
         user.save()
-        print("band4")
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
         #return "User created <br>"+json.loads(json.dumps(request.json))
 
@@ -126,16 +128,22 @@ def get_locations():
 def new_location():
     if request.data:
         user = User.objects(id=request.args.get('user_id')).get()
-        r = Location.from_json(json.dumps(request.data))
-        user.locations.append(r)
+        coord_lat= request.data.get("coord_lat")
+        coord_lon= request.data.get("coord_len")
+        my_point = geojson.Point((coord_lat, coord_lon))
+        l = Location.from_json(geojson.dumps(my_point, sort_keys=True))
+        user.locations.append(l)
         user.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+
 
 @app.route('/users/happends' , methods = ['GET'])
 def get_happends():
     if request.args:
         if request.args.get('user_id'):
             for user in User.objects(id=request.args.get('user_id')):
+                #print "*"
+                #print user.happends.photo
                 return json.loads(json.dumps(user.happends)), status.HTTP_200_OK
     else:
         for user in User.objects.all():
@@ -145,7 +153,26 @@ def get_happends():
 def new_happend():
     if request.data:
         user = User.objects(id=request.args.get('user_id')).get()
-        h = Happen.from_json(json.dumps(request.data))
+
+        coord_lat= request.data.get("coord_lat")
+        coord_lon= request.data.get("coord_len")
+
+        #temp_photo = open('/home/monica/Descargas/contest_winner.jpeg', 'rb')
+        #path = params.get('file_path', None)
+        #path = request.data.get("photo", None)
+        #image = Image.open(path)
+        #print image # **
+
+        h=Happen(type=request.data.get("type"),
+                 name=request.data.get("name"),
+                 description=request.data.get("description"),
+                 coordinates=[coord_lat, coord_lon])
+                 #,photo=image)
+
+        h.photo.put(open(request.data.get('photo', None)))
+        print open(request.data.get('photo', None))
+        #des.image.put(open(params.get('file_path', None)))
+
         user.happends.append(h)
         user.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
