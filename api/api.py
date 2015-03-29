@@ -33,6 +33,7 @@ db = MongoEngine(app)
 
 """ Mongodb collections"""
 class Location(db.EmbeddedDocument):
+
     created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
     coordinates = db.PointField(required=True)
 
@@ -73,6 +74,22 @@ class User(db.Document):
                                                           'other') , required = False)
     locations = db.ListField(db.EmbeddedDocumentField(Location))
     happends = db.ListField(db.EmbeddedDocumentField(Happen))
+
+    def get_absolute_url(self):
+        return url_for('post', kwargs={"_id": self._id})
+
+    def __unicode__(self):
+        return self._id
+
+
+class Via(db.Document):
+
+    created_at = db.DateTimeField(default = datetime.datetime.now, required = True)
+    active = db.StringField(max_length = 5, choices = ('true',
+                                                       'false'), default = 'true', required = False)
+    name = db.StringField(max_length = 255, required = False)
+    coordinatesPointA = db.PointField(required=True)
+    coordinatesPointB = db.PointField(required=True)
 
     def get_absolute_url(self):
         return url_for('post', kwargs={"_id": self._id})
@@ -149,6 +166,7 @@ def get_happends():
         for user in User.objects.all():
                 return json.loads(json.dumps(user.happends)), status.HTTP_200_OK
 
+
 @app.route('/users/happends', methods=['POST'])
 def new_happend():
     if request.data:
@@ -176,6 +194,37 @@ def new_happend():
         user.happends.append(h)
         user.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+
+
+@app.route('/vias' , methods = ['GET'])
+def get_vias():
+    if request.args:
+        if request.args.get('via_id'):
+            return json.loads(json.dumps({'via':Via.objects(id=request.args.get('via_id'))})), status.HTTP_200_OK
+        if request.args.get('name'):
+            return json.loads(json.dumps({'via':Via.objects(name=request.args.get('name'))})), status.HTTP_200_OK
+    else:
+        return json.loads(json.dumps(Via.objects)), status.HTTP_200_OK
+
+
+@app.route('/vias', methods=['POST'])
+def new_via():
+    if request.data:
+        coord_lat_pointA= request.data.get("coord_lat_pointA")
+        coord_len_pointA= request.data.get("coord_len_pointA")
+        coord_lat_pointB= request.data.get("coord_lat_pointB")
+        coord_len_pointB= request.data.get("coord_len_pointB")
+
+        via = Via(active=request.data.get("active"),
+                 name=request.data.get("name"),
+                 coordinatesPointA=[coord_lat_pointA, coord_len_pointA],
+                 coordinatesPointB=[coord_lat_pointB, coord_len_pointB])
+
+        via.save()
+        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+        #my_pointA = geojson.Point((coord_lat_pointA, coord_lon_pointA))
+        #my_pointB = geojson.Point((coord_lat_pointB, coord_lon_pointB))
+        #l = Location.from_json(geojson.dumps(my_point, sort_keys=True))
 
 
 """ App main """

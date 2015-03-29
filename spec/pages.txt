@@ -63,3 +63,6 @@ http://docs.mongoengine.org/guide/gridfs.html
 
 UPLOAD FILES S3
 http://www.thefort.org/a/using-flask-flask-wtf-and-boto-to-handle-file-uploads-to-amazon-s3/
+
+ROUTES ON GOOGLE
+https://developers.google.com/maps/documentation/directions/?hl=es
