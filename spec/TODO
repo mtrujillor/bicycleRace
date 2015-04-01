@@ -6,13 +6,19 @@ Usuario
 	happends 
 		codigos de estado + "tags"
 
-Ruta
+METODOS:
+	*PUT
+	*DELETE
+
+generar consultar "like" con las busquedas tipo String, especialmente en nombres
 
 Alerta
 
 Analizador
 
 formato de fecha
+
+probar las imagenes
 		
 desarrollar test para cada recurso
 configurar en nube

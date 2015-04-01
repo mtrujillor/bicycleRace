@@ -66,3 +66,7 @@ http://www.thefort.org/a/using-flask-flask-wtf-and-boto-to-handle-file-uploads-t
 
 ROUTES ON GOOGLE
 https://developers.google.com/maps/documentation/directions/?hl=es
+
+DJANGO GIRLS
+http://tutorial.djangogirls.org/es/deploy/README.html
+
