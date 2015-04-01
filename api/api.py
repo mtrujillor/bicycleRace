@@ -15,13 +15,13 @@ import geojson
 from PIL import Image
 
 
-
 app = FlaskAPI(__name__)
 
 app.config['DEFAULT_RENDERERS'] = [
     'flask.ext.api.renderers.JSONRenderer',
     'flask.ext.api.renderers.BrowsableAPIRenderer',
 ]
+
 
 """ Database connection settings"""
 dbName = 'my_api_va'
@@ -123,6 +123,52 @@ class Place(db.Document):
 
     def __unicode__(self):
         return self._id
+
+
+class Benefit(db.Document):
+
+    createdAt = db.DateTimeField(default = datetime.datetime.now, required = True)
+    active = db.StringField(max_length = 5, choices = ('true',
+                                                       'false'), default = 'false', required= True)
+    startTime = db.DateTimeField(required = False)
+    endTime = db.DateTimeField(required = False)
+
+    name = db.StringField(max_length = 255, required = False)
+    coordinates = db.PointField(required = True)
+    category = db.StringField(max_length = 25, choices = ('event',
+                                                          'service',
+                                                          'safety'), required = False)
+
+    type = db.StringField(max_length = 25, choices = ('arts',
+                                                      'ciclovia',
+                                                      'culture',
+                                                      'health',
+                                                      'science',
+                                                      'security',
+                                                      'sport',
+                                                      'technology',
+                                                      'tourism',
+                                                      'trade'), required = False)
+
+    cicloviaService = db.StringField(max_length = 25, choices = ('aerobics',
+                                                      'baths',
+                                                      'cycle ride',
+                                                      'hydration point',
+                                                      'loan bikes',
+                                                      'pets point',
+                                                      'RAFI',
+                                                      'school bike'), required = False)
+
+    description = db.StringField(max_length = 255, required = False)
+    photo = db.ImageField()
+    url = db.StringField(max_length = 300, default = 'true', required = False)
+
+    def get_absolute_url(self):
+        return url_for('post', kwargs = {"_id": self._id})
+
+    def __unicode__(self):
+        return self._id
+
 
 """ App routes """
 @app.route('/')
@@ -280,6 +326,50 @@ def new_place():
 
         place.photo.put(open(request.data.get('photo', None)))
         place.save()
+        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+
+
+
+@app.route('/benefits' , methods = ['GET'])
+def get_benefits():
+    if request.args:
+        if request.args.get('benefit_id'):
+            return json.loads(json.dumps({'benefit':Benefit.objects(id = request.args.get('benefit_id'))})), status.HTTP_200_OK
+        if request.args.get('active'):
+            return json.loads(json.dumps({'benefit':Benefit.objects(active = request.args.get('active'))})), status.HTTP_200_OK
+        if request.args.get('startTime'):
+            return json.loads(json.dumps({'benefit':Benefit.objects(startTime = request.args.get('startTime'))})), status.HTTP_200_OK
+        if request.args.get('name'):
+            return json.loads(json.dumps({'benefit':Benefit.objects(name = request.args.get('name'))})), status.HTTP_200_OK
+        if request.args.get('category'):
+            return json.loads(json.dumps({'benefit':Benefit.objects(category = request.args.get('category'))})), status.HTTP_200_OK
+        if request.args.get('type'):
+           return json.loads(json.dumps({'benefit':Benefit.objects(type = request.args.get('type'))})), status.HTTP_200_OK
+        if request.args.get('cicloviaService'):
+           return json.loads(json.dumps({'benefit':Benefit.objects(cicloviaService = request.args.get('cicloviaService'))})), status.HTTP_200_OK
+    else:
+        return json.loads(json.dumps(Benefit.objects)), status.HTTP_200_OK
+
+
+@app.route('/benefits', methods = ['POST'])
+def new_benefit():
+    if request.data:
+        coord_lat = request.data.get("coord_lat")
+        coord_len = request.data.get("coord_len")
+
+        benefit = Benefit(active = request.data.get("active"),
+                          startTime = request.data.get("startTime"),
+                          endTime = request.data.get("endTime"),
+                          name = request.data.get("name"),
+                          coordinates = [coord_lat, coord_len],
+                          category = request.data.get("category"),
+                          type = request.data.get("type"),
+                          cicloviaService = request.data.get("cicloviaService"),
+                          description = request.data.get("description"),
+                          url = request.data.get("url"))
+
+        benefit.photo.put(open(request.data.get('photo', None)))
+        benefit.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
 
 

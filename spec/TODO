@@ -19,11 +19,15 @@ Analizador
 formato de fecha
 
 probar las imagenes
+
+choices, deben venir de la base de datos para que se puedan extender
 		
 desarrollar test para cada recurso
 configurar en nube
 validaciones
-manejo de errores 
+manejo de errores:
+	parametros requeridos no son enviados
+	choices no son validos
 
 DOCUMENTACION
 organizar indices de retorno
