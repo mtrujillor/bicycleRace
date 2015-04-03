@@ -70,3 +70,6 @@ https://developers.google.com/maps/documentation/directions/?hl=es
 DJANGO GIRLS
 http://tutorial.djangogirls.org/es/deploy/README.html
 
+GETTING STAR HEROKU
+https://devcenter.heroku.com/articles/getting-started-with-python-o#next-steps
+
