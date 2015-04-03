@@ -170,6 +170,33 @@ class Benefit(db.Document):
         return self._id
 
 
+class Notification(db.Document):
+
+    createdAt = db.DateTimeField(default = datetime.datetime.now, required = True)
+    active = db.StringField(max_length = 5, choices = ('true',
+                                                       'false'), default = 'false', required= True)
+
+    type = db.StringField(max_length = 25, choices = ('event',
+                                                      'news',
+                                                      'security',
+                                                      'service'), required = False)
+
+    priority = db.StringField(max_length = 25, choices = ('low',
+                                                          'high',
+                                                          'medium',
+                                                          'none'), required = False)
+
+    message = db.StringField(max_length = 255, required = True)
+    photo = db.ImageField()
+    url = db.StringField(max_length = 300, default = 'true', required = False)
+
+    def get_absolute_url(self):
+        return url_for('post', kwargs = {"_id": self._id})
+
+    def __unicode__(self):
+        return self._id
+
+
 """ App routes """
 @app.route('/')
 def api_root():
@@ -370,6 +397,35 @@ def new_benefit():
 
         benefit.photo.put(open(request.data.get('photo', None)))
         benefit.save()
+        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+
+
+@app.route('/notifications' , methods = ['GET'])
+def get_notifications():
+    if request.args:
+        if request.args.get('notification_id'):
+            return json.loads(json.dumps({'notification':Notification.objects(id = request.args.get('notification_id'))})), status.HTTP_200_OK
+        if request.args.get('active'):
+            return json.loads(json.dumps({'notification':Notification.objects(active = request.args.get('active'))})), status.HTTP_200_OK
+        if request.args.get('type'):
+            return json.loads(json.dumps({'notification':Notification.objects(type = request.args.get('type'))})), status.HTTP_200_OK
+        if request.args.get('priority'):
+            return json.loads(json.dumps({'notification':Notification.objects(priority = request.args.get('priority'))})), status.HTTP_200_OK
+    else:
+        return json.loads(json.dumps(Notification.objects)), status.HTTP_200_OK
+
+
+@app.route('/notifications', methods = ['POST'])
+def new_notification():
+    if request.data:
+        notification = Notification(active = request.data.get("active"),
+                                    type = request.data.get("type"),
+                                    priority = request.data.get("priority"),
+                                    message = request.data.get("message"),
+                                    url = request.data.get("url"))
+
+        notification.photo.put(open(request.data.get('photo', None)))
+        notification.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
 
 

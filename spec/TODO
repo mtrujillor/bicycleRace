@@ -6,6 +6,8 @@ Usuario
 	happends 
 		codigos de estado + "tags"
 
+asociar las notificaciones a: coordenadas, eventos o beneficios.
+
 METODOS:
 	*PUT
 	*DELETE
