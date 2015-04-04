@@ -72,4 +72,5 @@ http://tutorial.djangogirls.org/es/deploy/README.html
 
 GETTING STAR HEROKU
 https://devcenter.heroku.com/articles/getting-started-with-python-o#next-steps
+http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xviii-deployment-on-the-heroku-cloud
 
