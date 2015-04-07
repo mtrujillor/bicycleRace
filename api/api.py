@@ -48,7 +48,7 @@ class Happen(db.EmbeddedDocument):
                                                       'other') , required = False)
     name = db.StringField(max_length = 115 , required = False)
     description = db.StringField(max_length = 255 , required = False)
-    photo = db.ImageField()
+    photo = db.ImageField(required = False)
 
 
 class User(db.Document):
@@ -115,7 +115,7 @@ class Place(db.Document):
                                                       'technology',
                                                       'tourism',
                                                       'trade'), required = False)
-    photo = db.ImageField()
+    photo = db.ImageField(required = False)
     url = db.StringField(max_length = 300, default = 'true', required = False)
 
     def get_absolute_url(self):
@@ -160,7 +160,7 @@ class Benefit(db.Document):
                                                       'school bike'), required = False)
 
     description = db.StringField(max_length = 255, required = False)
-    photo = db.ImageField()
+    photo = db.ImageField(required = False)
     url = db.StringField(max_length = 300, default = 'true', required = False)
 
     def get_absolute_url(self):
@@ -187,7 +187,7 @@ class Notification(db.Document):
                                                           'none'), required = False)
 
     message = db.StringField(max_length = 255, required = True)
-    photo = db.ImageField()
+    photo = db.ImageField(required = False)
     url = db.StringField(max_length = 300, default = 'true', required = False)
 
     def get_absolute_url(self):
@@ -201,6 +201,7 @@ class Notification(db.Document):
 @app.route('/')
 def api_root():
     return 'Welcome API Bicycle Race :)'
+
 
 @app.route('/users' , methods = ['GET'])
 def get_users():
@@ -222,6 +223,7 @@ def get_users():
         #return return jsonify(User.objects) #works but no pretty
         #return Response(json.dumps(User.objects()),  mimetype='application/json') #works pretty with postman
         #return json.dumps(User.objects,indent=4, separators=(',', ': '), ensure_ascii=False) #works but no pretty
+
 
 @app.route('/users', methods=['POST'])
 def new_user():
@@ -246,7 +248,7 @@ def new_location():
         user = User.objects(id = request.args.get('user_id')).get()
         coord_lat= request.data.get("coord_lat")
         coord_lon= request.data.get("coord_len")
-        my_point = geojson.Point((coord_lat, coord_lon))
+        my_point = geojson.Point((float(coord_lat), float(coord_lon)))
         l = Location.from_json(geojson.dumps(my_point, sort_keys = True))
         user.locations.append(l)
         user.save()
@@ -261,9 +263,9 @@ def get_happends():
                 #print "*"
                 #print user.happends.photo
                 return json.loads(json.dumps(user.happends)), status.HTTP_200_OK
-    else:
+    """else:
         for user in User.objects.all():
-                return json.loads(json.dumps(user.happends)), status.HTTP_200_OK
+                return json.loads(json.dumps(user.happends)), status.HTTP_200_OK"""
 
 
 @app.route('/users/happends', methods = ['POST'])
@@ -283,7 +285,7 @@ def new_happend():
         h = Happen(type = request.data.get("type"),
                  name = request.data.get("name"),
                  description = request.data.get("description"),
-                 coordinates = [coord_lat, coord_lon])
+                 coordinates = [float(coord_lat), float(coord_lon)])
                  #,photo=image)
 
         h.photo.put(open(request.data.get('photo', None)))
@@ -354,7 +356,6 @@ def new_place():
         place.photo.put(open(request.data.get('photo', None)))
         place.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
-
 
 
 @app.route('/benefits' , methods = ['GET'])

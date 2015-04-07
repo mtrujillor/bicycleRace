@@ -1,0 +1,10 @@
+COMMANDS
+# Mongo
+sudo service mongod start
+
+# Virtualenv
+source bicycleRace/bin/activate
+
+#pycharmr
+pycharm.sh &
+

@@ -1,76 +1,123 @@
-#github
+# github
 http://rogerdudler.github.io/git-guide/index.es.html
 https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/#platform-linux
 https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
 
-#test API
-https://www.runscope.com/signup
 
-#Flask type data
+# Flask type data
 https://flask-mongoengine.readthedocs.org/en/latest/
 
-#mongo
+
+# mongo
 * Diseño de datos en mongo db
 http://docs.mongodb.org/manual/core/data-model-design/
 
-*Diccionarios, documentos y embebidos en mongodb
+
+* Diccionarios, documentos y embebidos en mongodb
 https://mongoengine-odm.readthedocs.org/guide/defining-documents.html
 
-#API things
+
+# API things
 page like
 https://dweet.io/play/
 
-DOCUMMENT
+
+# DOCUMMENT
 Standford Tool
 https://www.youtube.com/watch?v=QVUMpvS4PQo
 
-Querying
+# Querying
 http://docs.mongoengine.org/en/latest/apireference.html
 
-VNCSERVER
+# VNCSERVER
 https://www.linode.com/docs/applications/remote-desktop/using-vnc-to-operate-a-desktop-on-ubuntu-12-04
 
-API DOCUMENT
+
+API DOCUMENTATION
 Design -> http://apiary.io/how-it-works
 http://petstore.swagger.io/#!/pet/addPet
 }http://flask-restplus.readthedocs.org/en/latest/documenting.html
 https://github.com/rantav/flask-restful-swagger
+https://docs.readthedocs.org/en/latest/index.html
+http://docs.locust.io/en/latest/what-is-locust.html - Ejemplo muy completo
 
-FLASK RESTplus problems
+
+# FLASK RESTplus problems
 http://stackoverflow.com/questions/23981561/importerror-no-module-named-flask-ext-restless
 http://stackoverflow.com/questions/29073724/flask-restful-with-flask-wtf-forms-integration
 
-FLASK APP ON HEROKU
+
+# FLASK APP ON HEROKU
 http://spapas.github.io/2014/06/30/rest-flask-mongodb-heroku/
+
 
 PRESENTACION PROYECTO, like
 http://orange.biolab.si/
 
-SWAGGER DOCUMENTATION
+
+# SWAGGER DOCUMENTATION
 http://flask-restful.readthedocs.org/en/latest/quickstart.html
 https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#51-resource-listing
 http://stackoverflow.com/questions/21455055/swagger-api-documentation
 
-MONGOREST
+
+# MONGOREST
 https://github.com/elasticsales/flask-mongorest
 https://github.com/matchbox/flask-mongorest-swagger/
+
 
 STATUS CODES
 http://www.django-rest-framework.org/api-guide/status-codes/
 
+
 MONGO-IMAGES
 http://docs.mongoengine.org/guide/gridfs.html
+
 
 UPLOAD FILES S3
 http://www.thefort.org/a/using-flask-flask-wtf-and-boto-to-handle-file-uploads-to-amazon-s3/
 
-ROUTES ON GOOGLE
+
+# ROUTES ON GOOGLE
 https://developers.google.com/maps/documentation/directions/?hl=es
 
-DJANGO GIRLS
+
+# DJANGO GIRLS
 http://tutorial.djangogirls.org/es/deploy/README.html
 
-GETTING STAR HEROKU
+
+# GETTING STAR HEROKU
 https://devcenter.heroku.com/articles/getting-started-with-python-o#next-steps
 http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xviii-deployment-on-the-heroku-cloud
+
+
+# DOCUMENT ABOUT PROGRAMMING and structure of project
+https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications
+
+
+#test API
+https://www.runscope.com/signup
+https://wiki.python.org/moin/PythonTestingToolsTaxonomy
+http://funkload.nuxeo.org/
+stutils.org/multi-mechanize/index.html
+http://runnable.com/
+
+# test API LOCUST
+http://locust.io/
+https://www.grahl.ch/blog/load-testing-drupal-site-locust
+http://docs.locust.io/en/latest/writing-a-locustfile.html *
+
+---
+{
+  "active":"true",
+  "name": "AV 26",
+  "coord_lat_pointA":-9.88,
+  "coord_len_pointA":-19.88,
+  "coord_lat_pointB":-2.88,
+  "coord_len_pointB":-12.88
+}
+
+
+
+
 
