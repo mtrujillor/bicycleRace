@@ -311,10 +311,10 @@ def get_vias():
 @app.route('/vias', methods = ['POST'])
 def new_via():
     if request.data:
-        coord_lat_pointA = request.data.get("coord_lat_pointA")
-        coord_len_pointA = request.data.get("coord_len_pointA")
-        coord_lat_pointB = request.data.get("coord_lat_pointB")
-        coord_len_pointB = request.data.get("coord_len_pointB")
+        coord_lat_pointA = float(request.data.get("coord_lat_pointA"))
+        coord_len_pointA = float(request.data.get("coord_len_pointA"))
+        coord_lat_pointB = float(request.data.get("coord_lat_pointB"))
+        coord_len_pointB = float(request.data.get("coord_len_pointB"))
 
         via = Via(active = request.data.get("active"),
                  name = request.data.get("name"),
@@ -349,7 +349,7 @@ def new_place():
 
         place = Place(active = request.data.get("active"),
                  name = request.data.get("name"),
-                 coordinates = [coord_lat, coord_len],
+                 coordinates = [float(coord_lat), float(coord_len)],
                  type = request.data.get("type"),
                  url = request.data.get("url"))
 
@@ -389,7 +389,7 @@ def new_benefit():
                           startTime = request.data.get("startTime"),
                           endTime = request.data.get("endTime"),
                           name = request.data.get("name"),
-                          coordinates = [coord_lat, coord_len],
+                          coordinates = [float(coord_lat), float(coord_len)],
                           category = request.data.get("category"),
                           type = request.data.get("type"),
                           cicloviaService = request.data.get("cicloviaService"),
