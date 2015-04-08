@@ -110,4 +110,8 @@ http://docs.locust.io/en/latest/writing-a-locustfile.html *
 #Latex
 https://www.sharelatex.com/templates/55242dd8eee6edb00c043d1c
 
+#Fake
+https://pypi.python.org/pypi/fake-factory
+http://fake-factory.readthedocs.org/en/master/locales/es_MX.html
+
 
