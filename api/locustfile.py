@@ -9,7 +9,7 @@ from faker import Factory
 fake = Factory.create('en_US')
 
 
-#test data
+#test data local
 user_id_list = ['55247d1dbd3cc61754617ede', '55247d1fbd3cc61754617ee4']
 photo = '/home/monica/Descargas/contest_winner.jpeg'
 
@@ -24,6 +24,24 @@ benefits_name = 'Qui rerum maiores dolor.'
 
 notification_id = '55247d1ebd3cc61754617ee3'
 
+
+"""
+#test data cloud
+user_id_list = ['552576a566ce06000a946cc6','552576a966ce06000a946cc7']
+photo = '/home/monica/Descargas/contest_winner.jpeg'
+
+via_id = '552576b766ce06000a946cc8'
+via_name = 'Dorothea Locks'
+
+#pendiente
+place_id = '55247d25bd3cc61754617eed'
+place_name = 'Hane'
+
+benefit_id = '55247d21bd3cc61754617ee9'
+benefits_name = 'Qui rerum maiores dolor.'
+
+notification_id = '55247d1ebd3cc61754617ee3'
+"""
 
 #list options test data
 gender_list = ['female','male']
@@ -53,64 +71,56 @@ notification_priority_list = ['low', 'high', 'medium', 'none']
 
 class UserBehavior(TaskSet):
 
-    @task()
+    @task(1)
     def api_root(self):
         response = self.client.get("/")
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(1)
+    @task(2)
     def get_users(self):
         response = self.client.get("/users")
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(1)
+    @task(3)
     def get_user_by_user(self):
         response = self.client.get("/users?user_id="+random.choice(user_id_list))
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-
-    @task(1)
+    @task(2)
     def get_user_by_age(self):
         age = randint(5,80)
         response = self.client.get("/users?age="+str(age))
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(1)
-    def get_user_by_age(self):
-        age = randint(5,80)
-        response = self.client.get("/users?age="+str(age))
-        print "Response status code:", response.status_code
-        #print "Response content:", response.conten
-
-    @task(1)
+    @task(2)
     def get_user_by_gender(self):
         response = self.client.get("/users?gender="+random.choice(gender_list))
         print "Response status code:", response.status_code
         #print "Response content:", response.conten
 
-    @task(1)
+    @task(2)
     def get_user_by_disability(self):
         response = self.client.get("/users?disability="+random.choice(disability_list))
         print "Response status code:", response.status_code
         #print "Response content:", response.conten
 
-    @task(1)
+    @task(2)
     def get_user_by_healthRisk(self):
         response = self.client.get("/users?healthRisk="+random.choice(healthRisk_list))
         print "Response status code:", response.status_code
         #print "Response content:", response.conten
 
-    @task(1)
+    @task(4)
     def get_user_by_activity(self):
         response = self.client.get("/users?activity="+random.choice(activity_list))
         print "Response status code:", response.status_code
         #print "Response content:", response.conten
 
-    @task(5)
+    @task(7)
     def new_user(self):
         #response = self.client.post("/users", {"activity": "bike riding",
         age = randint(5,80)
@@ -126,21 +136,22 @@ class UserBehavior(TaskSet):
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(8)
+    @task(9)
     def new_location(self):
         lat = randint(-90,90)
         len = randint(-90,90)
         response = self.client.post("/users/locations?user_id=" + random.choice(user_id_list), {"coord_lat":lat,
                                                                             "coord_len":len})
         print "Response status code:", response.status_code
+        print "Response content:", response.content
 
-    @task(1)
+    @task(2)
     def get_happends(self):
         response = self.client.get("/users/happends?user_id=" + random.choice(user_id_list))
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(6)
+    @task(5)
     def new_happend(self):
         lat = randint(-90,90)
         len = randint(-90,90)
@@ -151,6 +162,7 @@ class UserBehavior(TaskSet):
                                                                          "coord_len" : len,
                                                                          "photo" : photo})
         print "Response status code:", response.status_code
+        print "Response content:", response.content
 
     @task(2)
     def get_vias(self):
@@ -158,7 +170,7 @@ class UserBehavior(TaskSet):
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(2)
+    @task(3)
     def get_vias_by_id(self):
         response = self.client.get("/vias?via_id="+via_id)
         print "Response status code:", response.status_code
@@ -220,6 +232,7 @@ class UserBehavior(TaskSet):
                                                 "url": fake.url(),
                                                 "photo":photo})
         print "Response status code:", response.status_code
+        print "Response content:", response.content
 
     @task(3)
     def get_benefits(self):
@@ -233,7 +246,7 @@ class UserBehavior(TaskSet):
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(2)
+    @task(3)
     def get_benefits_by_active(self):
         response = self.client.get("/benefits?active="+random.choice(boolean_list))
         print "Response status code:", response.status_code
@@ -286,7 +299,7 @@ class UserBehavior(TaskSet):
                                                   "photo": photo})
         print "Response status code:", response.status_code
 
-    @task(1)
+    @task(2)
     def get_notifications(self):
         response = self.client.get("/notifications")
         print "Response status code:", response.status_code
@@ -298,7 +311,7 @@ class UserBehavior(TaskSet):
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(2)
+    @task(3)
     def get_notifications_active(self):
         response = self.client.get("/notifications?active="+random.choice(boolean_list))
         print "Response status code:", response.status_code
@@ -310,7 +323,7 @@ class UserBehavior(TaskSet):
         print "Response status code:", response.status_code
         #print "Response content:", response.content
 
-    @task(2)
+    @task(3)
     def get_notifications_priority(self):
         response = self.client.get("/notifications?priority="+random.choice(notification_priority_list))
         print "Response status code:", response.status_code
@@ -325,9 +338,10 @@ class UserBehavior(TaskSet):
                                                        "url": fake.url(),
                                                        "photo": photo})
         print "Response status code:", response.status_code
+        print "Response content:", response.content
 
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait=5000
-    max_wait=9000
+    min_wait=4000
+    max_wait=7000

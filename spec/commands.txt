@@ -10,3 +10,9 @@ pycharm.sh &
 
 #Teclado ubuntu es español
 sudo setxkbmap -model pc105 -layout latam
+
+#see heroku logs
+heroku logs -t
+
+#start locust
+locust --host=http://0.0.0.0:5000
