@@ -230,7 +230,7 @@ def new_user():
     if request.data:
         user = User.from_json(json.dumps(request.data))
         user.save()
-        return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED
+        return json.loads(json.dumps(user)), status.HTTP_201_CREATED
         #return "User created <br>"+json.loads(json.dumps(request.json))
 
 

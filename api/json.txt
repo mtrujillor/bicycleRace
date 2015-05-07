@@ -1,0 +1,126 @@
+BENEFIT
+
+{
+        "category": "event",
+        "description": "Harum recusandae cum quidem cumque sed sit voluptatem corrupti.",
+        "url": "http://goodwin.info/",
+        "photo": {
+            "$oid": "55247dc2bd3cc6181333fb9c"
+        },
+        "coordinates": {
+            "type": "Point",
+            "coordinates": [
+                48.0,
+                68.0
+            ]
+        },
+
+--
+{
+        "category": "safety",
+        "description": "Cum quibusdam enim occaecati esse consectetur voluptatem.",
+        "url": "http://stanton.com/",
+        "photo": {
+            "$oid": "55247dc6bd3cc6181333fbb9"
+        },
+        "coordinates": {
+            "type": "Point",
+            "coordinates": [
+                -76.0,
+                -62.0
+            ]
+        },
+        "cicloviaService": "school bike",
+        "active": "true",
+        "_id": {
+            "$oid": "55247dc6bd3cc6181333fbbb"
+        },
+        "type": "tourism",
+        "createdAt": {
+            "$date": 1428436854691
+        },
+        "name": "Facilis ipsam atque hic."
+    },
+    
+____________//_______________
+NOTIFICATIONS
+
+ {
+        "url": "http://www.streich.org/",
+        "photo": {
+            "$oid": "55247dc3bd3cc6181333fba5"
+        },
+        "priority": "low",
+        "active": "false",
+        "message": "Corrupti repellat impedit ipsum beatae minus libero a sed soluta nobis eum officiis et soluta rerum ut optio esse reprehenderit voluptatem quos necessitatibus accusamus porro excepturi.",
+        "_id": {
+            "$oid": "55247dc3bd3cc6181333fba7"
+        },
+        "type": "event",
+        "createdAt": {
+            "$date": 1428436851603
+        }
+    }
+    
+ _________________//_________________
+HAPPEND
+{
+                "name": "Vel blanditiis et enim.",
+                "photo": {
+                    "$oid": "55247dc0bd3cc6181333fb8d"
+                },
+                "coordinates": {
+                    "type": "Point",
+                    "coordinates": [
+                        24.0,
+                        64.0
+                    ]
+                },
+                "type": "other",
+                "createdAt": {
+                    "$date": 1428436848899
+                },
+                "description": "Id eaque ut accusantium rem repellat est nihil ipsa."
+            }
+            
+_______________//_________________
+LOCATIONS
+ {
+                "createdAt": {
+                    "$date": 1428436846969
+                },
+                "coordinates": {
+                    "type": "Point",
+                    "coordinates": [
+                        -18.0,
+                        45.0
+                    ]
+                }
+            },
+__________________//______________
+
+PLACE
+ {
+        "name": "Hane",
+        "url": "http://lindgren.com/",
+        "photo": {
+            "$oid": "55247d25bd3cc61754617eed"
+        },
+        "coordinates": {
+            "type": "Point",
+            "coordinates": [
+                32.0,
+                34.0
+            ]
+        },
+        "active": "true",
+        "_id": {
+            "$oid": "55247d25bd3cc61754617eef"
+        },
+        "type": "ciclovia",
+        "createdAt": {
+            "$date": 1428436693733
+        }
+    }
+____________//_________________
+
