@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>       </title>
+</head>
+<body>
+    <div class="col-sm-12">
+        <div id="mapOrigin" class="well"></div>
+    </div>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+</script>
+<script>
+
+    /*Get information for a workspace*/
+    function getUsers() {
+        return $.ajax({
+          type: "GET",
+          async:false,
+          dataType: "json",
+          url: "/users",
+          dataType: "JSON",
+        }).responseText;
+    }
+
+    //Google maps
+    var initialize;
+    initialize = function() {
+        infowindow = new google.maps.InfoWindow();
+        var latlngOrigin = new google.maps.LatLng(4.714179, -74.032584);
+
+        var originProp = {
+            disableDefaultUI: true,
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.DEFAULT,
+                position: google.maps.ControlPosition.RIGHT_TOP
+            },
+            center: latlngOrigin,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var mapOrigin = new google.maps.Map(document.getElementById("mapOrigin"), originProp);
+        $("#mapTab").on('shown.bs.tab', function() {
+
+            /* Trigger map resize event */
+            google.maps.event.trigger(mapOrigin, 'resize');
+            mapOrigin.setCenter(latlngOrigin);
+        });
+
+        $("#mapOrigin").css("width", '100%').css("height", '100%');
+        var json = JSON.parse(getUsers());
+        for (var i = 0, length = json.length; i < length; i++) {
+            var user = json[i];
+            if(user == null)
+            {
+            	return;
+            }
+            
+            var id = user['_id']['$oid'];
+            var locations = user['locations'];
+            var color = getRandomColor();
+            for (var j = 0, length = locations.length; j < length; j++) {
+            	var coordinates = locations[j]['coordinates']['coordinates'];
+            	var latLng = new google.maps.LatLng(coordinates[0],coordinates[1]);
+            	var markerOrigin = new google.maps.Marker({
+		            position: latLng,
+		            map: mapOrigin,
+		            draggable:false,
+		            icon: pinSymbol(color),
+		            title: 'User id: '+id
+		        });
+            }
+        }
+
+        function getRandomColor() {
+		    var letters = '0123456789ABCDEF'.split('');
+		    var color = '#';
+		    for (var i = 0; i < 6; i++ ) {
+		        color += letters[Math.floor(Math.random() * 16)];
+		    }
+		    return color;
+		}
+
+        
+        function pinSymbol(color) {
+            return {
+                path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+                fillColor: color,
+                fillOpacity: 1,
+                strokeColor: '#000',
+                strokeWeight: 2,
+                scale: 1
+            };
+        }
+
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+</body>
+</html>

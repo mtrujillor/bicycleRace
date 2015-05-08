@@ -12,8 +12,6 @@ import requests
 from random import randint
 
 
-user_list = None
-
 #list options test data
 gender_list = ['female','male']
 boolean_list = ['true', 'false']
@@ -32,6 +30,14 @@ notification_priority_list = ['low', 'high', 'medium', 'none']
 BASE_URL = 'http://0.0.0.0:5000'
 USER_PATH = BASE_URL+'/users'
 LOCATION_PATH = BASE_URL+'/users/locations'
+
+#Point A
+LAT_A = 4.697815
+LONG_A = -74.033142
+#Point B
+LAT_B = 4.725423
+LONG_B = -74.032455
+
 
 user_list = []
 
@@ -62,20 +68,20 @@ def get_new_user_json():
             "healthRisk": health_risk}
     return user
 
-def user_travel(lat_in, long_in, lat_dest, long_dest):
+def users_travel(lat_in, long_in, lat_dest, long_dest):
     for user in user_list:
         #The user will randomly make 4-8 posts along the way
-        posts = randint(1, 1)
+        posts = randint(3, 7)
 
         #Each post will need to go along the line the user is traversing
-        for x in range(0, posts):
-            progress = x/posts;
+        for x in range(0, posts+1):
+            progress = x/float(posts);
             lat_now = lat_in + (lat_dest - lat_in) * progress
             long_now = long_in + (long_dest - long_in) * progress
 
             #TODO
             #Offset the point by a little, they wont go in a straight line
-
+            lat_now = lat_now + randint(-10,10)*0.0001
             #Call the API and store the location information
             location_request = {"coord_lat": lat_now, "coord_len": long_now}
             payload = {'user_id': user['_id']['$oid']}
@@ -84,6 +90,6 @@ def user_travel(lat_in, long_in, lat_dest, long_dest):
             print r.url
 
 create_users()
-user_travel(19.88, 9.88, 20.88, 10.88)
+users_travel(LAT_A, LONG_A, LAT_B, LONG_B)
 #print json.load(urllib2.urlopen("http://0.0.0.0:5000/users"))
 
