@@ -250,6 +250,10 @@ def new_location():
         coord_lon= request.data.get("coord_len")
         my_point = geojson.Point((float(coord_lat), float(coord_lon)))
         l = Location.from_json(geojson.dumps(my_point, sort_keys = True))
+        print request.data
+        if request.data.get("timestamp"):
+            time_ = datetime.datetime.fromtimestamp(float(request.data.get("timestamp")))
+            l.createdAt = time_
         user.locations.append(l)
         user.save()
         return json.loads(json.dumps(request.data)), status.HTTP_201_CREATED

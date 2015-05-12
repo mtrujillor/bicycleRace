@@ -9,7 +9,11 @@ import json
 import urllib2
 import random
 import requests
+import calendar
 from random import randint
+from random import randrange
+from datetime import datetime
+from datetime import timedelta
 
 
 #list options test data
@@ -43,7 +47,7 @@ user_list = []
 
 def create_users():
 
-    for x in range(0, 10):
+    for x in range(0, 100):
         #Generate a user with random information
         user = get_new_user_json()
 
@@ -68,10 +72,46 @@ def get_new_user_json():
             "healthRisk": health_risk}
     return user
 
-def users_travel(lat_in, long_in, lat_dest, long_dest):
+def users_travel(lat_a, long_a, lat_b, long_b):
     for user in user_list:
+
+        lat_in = lat_a
+        long_in = long_a
+        lat_dest = lat_b
+        long_dest = long_b
+
+        #The user will randomly go from point a to b or viceversa
+        if random.random() < 0.5:
+            lat_in = lat_b
+            long_in = long_b
+            lat_dest = lat_a
+            long_dest = long_a
+
         #The user will randomly make 4-8 posts along the way
         posts = randint(3, 7)
+
+        #The user will enter the place between 7am and 1pm
+        d1 = datetime.strptime('10/5/2015 7:00 AM', '%d/%m/%Y %I:%M %p')
+        d2 = datetime.strptime('10/5/2015 1:00 PM', '%d/%m/%Y %I:%M %p')
+
+        #Dates are represented on UTC 0 and we need UTC -5
+        d1 += timedelta(seconds=60*60*5)
+        d2 += timedelta(seconds=60*60*5)
+
+        #The user will enter at any time of day
+        entry_time = random_date(d1, d2)
+
+        #The user will have different average times to travel depending on his travel method
+        travel_time = randint(60*30, 60*55)
+        travel_method = user['activity']
+        if travel_method == 'bike riding':
+            travel_time = randint(60*12, 60*25)
+        if travel_method == 'jogging':
+            travel_time = randint(60*18, 60*30)
+        if travel_method == 'skating':
+            travel_time = randint(60*14, 60*26)
+        if travel_method == 'walking':
+            travel_time = randint(60*25, 60*45)
 
         #Each post will need to go along the line the user is traversing
         for x in range(0, posts+1):
@@ -79,15 +119,30 @@ def users_travel(lat_in, long_in, lat_dest, long_dest):
             lat_now = lat_in + (lat_dest - lat_in) * progress
             long_now = long_in + (long_dest - long_in) * progress
 
+            now_time = entry_time + timedelta(seconds=travel_time * progress)
+            epoch = datetime(1970,1,1)
+            t = (now_time - epoch).total_seconds()
+            print now_time
+            print t
             #TODO
             #Offset the point by a little, they wont go in a straight line
             lat_now = lat_now + randint(-10,10)*0.0001
             #Call the API and store the location information
-            location_request = {"coord_lat": lat_now, "coord_len": long_now}
+            location_request = {"coord_lat": lat_now, "coord_len": long_now, "timestamp": t}
             payload = {'user_id': user['_id']['$oid']}
             headers = ''
             r = requests.post(LOCATION_PATH, headers=headers, data=location_request, params=payload)
             print r.url
+
+def random_date(start, end):
+    """
+    This function will return a random datetime between two datetime
+    objects.
+    """
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = randrange(int_delta)
+    return start + timedelta(seconds=random_second)
 
 create_users()
 users_travel(LAT_A, LONG_A, LAT_B, LONG_B)

@@ -3,12 +3,32 @@
 <title>       </title>
 </head>
 <body>
-    <div class="col-sm-12">
-        <div id="mapOrigin" class="well"></div>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">
+	        Test!
+	      </a>
+	    </div>
+	  </div>
+	</nav>
+	<div class="container">
+		<div class="col-sm-6">
+		    <div id="mapOrigin" class="well"></div>
+		</div>
+		<div class="col-sm-6">
+		    Espacio para otras cosas
+		</div>
     </div>
+
+
+
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/sandstone/bootstrap.min.css" rel="stylesheet">
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
 </script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">
 </script>
 <script>
 
@@ -49,26 +69,24 @@
         });
 
         $("#mapOrigin").css("width", '100%').css("height", '100%');
+
         var json = JSON.parse(getUsers());
-        for (var i = 0, length = json.length; i < length; i++) {
+        var locs = 0;
+        for (var i = 0; i < json.length; i++) {
             var user = json[i];
-            if(user == null)
-            {
-            	return;
-            }
-            
             var id = user['_id']['$oid'];
             var locations = user['locations'];
             var color = getRandomColor();
-            for (var j = 0, length = locations.length; j < length; j++) {
+            for (var j = 0; j < locations.length; j++) {
             	var coordinates = locations[j]['coordinates']['coordinates'];
+            	var date = new Date(locations[j]['createdAt']['$date']);
             	var latLng = new google.maps.LatLng(coordinates[0],coordinates[1]);
             	var markerOrigin = new google.maps.Marker({
 		            position: latLng,
 		            map: mapOrigin,
 		            draggable:false,
 		            icon: pinSymbol(color),
-		            title: 'User id: '+id
+		            title: 'Date: '+date.toUTCString()
 		        });
             }
         }
