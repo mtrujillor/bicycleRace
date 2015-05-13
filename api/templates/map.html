@@ -1,47 +1,112 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>       </title>
 </head>
 <body>
 	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
+	  <div class="container">
 	    <div class="navbar-header">
 	      <a class="navbar-brand" href="#">
-	        Test!
+	        CICLOVIA TESTAPP
 	      </a>
 	    </div>
 	  </div>
 	</nav>
 	<div class="container">
-		<div class="col-sm-6">
+		<div class="col-sm-6" style="height:700px">
 		    <div id="mapOrigin" class="well"></div>
 		</div>
 		<div class="col-sm-6">
-		    Espacio para otras cosas
+		    <form role="form">
+		    	<div class="col-sm-12">
+				  <h4>Filtrar</h4>
+				  </div>
+				  <div class="col-sm-6">
+				  	<div class="form-group">
+					    <label for="age_start">Edad mínima:</label>
+					    <input type="number" class="form-control" name="age_start" id="age_start" value=0>
+					  </div>
+					  <div class="form-group">
+					  	<label for="datetimepicker1">Fecha mínima:</label>
+              <div class='input-group date' id='datetimepicker1'>
+                <input type='text' name="date_start" class="form-control" value="10/05/2015 7:00" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
+					  <div class="form-group">
+					    <label for="activity">Actividad:</label>
+					    <select class="form-control" name="activity" id="activity">
+					    	<option value="">Todos</option>
+							  <option value="bike riding">Bicicleta</option>
+							  <option value="jogging">Trote</option>
+							  <option value="walking">Caminata</option>
+							  <option value="skating">Patines</option>
+							  <option value="other">Otros</option>
+							</select>
+					  </div>
+					  <div class="form-group">
+					    <label for="gender">Género:</label>
+					    <select class="form-control" name="gender" id="gender">
+					    	<option value="">N/A</option>
+							  <option value="male">Hombre</option>
+							  <option value="female">Mujer</option>
+							</select>
+					  </div>
+				  </div>
+				  <div class="col-sm-6">
+					  <div class="form-group">
+					    <label for="age_end">Edad máxima:</label>
+					    <input type="number" class="form-control" name="age_end" id="age_end" value=90>
+					  </div>
+					  <div class="form-group">
+					  	<label for="datetimepicker2">Fecha máxima:</label>
+              <div class='input-group date' id='datetimepicker2'>
+                <input type='text' name="date_end" class="form-control" value="10/05/2015 14:00" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+					    <label for="healthRisk">Problemas de Salud:</label>
+					    <select class="form-control" name="healthRisk" id="healthRisk">
+					    	<option value="">Todos</option>
+							  <option value="cardiovascular">Cardiovascular</option>
+							  <option value="breathing">Respiratorio</option>
+							  <option value="infectious">Infeccioso</option>
+							  <option value="bones joints muscles">Huesos, articulaciones y músculos</option>
+							  <option value="other">Otros</option>
+							</select>
+					  </div>
+					</div>
+					<div class="col-sm-12">
+						<button type="submit" class="btn btn-default">Submit</button>
+					</div>
+				</form>
 		</div>
-    </div>
-
-
+  </div>
 
 <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/sandstone/bootstrap.min.css" rel="stylesheet">
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-</script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
-</script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.css" />
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                    locale: 'es'
+                });
+                $('#datetimepicker2').datetimepicker({
+                    locale: 'es'
+                });
+            });
+        </script>
 <script>
-
-    /*Get information for a workspace*/
-    function getUsers() {
-        return $.ajax({
-          type: "GET",
-          async:false,
-          dataType: "json",
-          url: "/users",
-          dataType: "JSON",
-        }).responseText;
-    }
 
     //Google maps
     var initialize;
@@ -70,7 +135,7 @@
 
         $("#mapOrigin").css("width", '100%').css("height", '100%');
 
-        var json = JSON.parse(getUsers());
+        var json = getFilteredUsers();
         var locs = 0;
         for (var i = 0; i < json.length; i++) {
             var user = json[i];
@@ -113,6 +178,38 @@
         }
 
     }
+
+    function getFilteredUsers() {
+        return JSON.parse(getUsers(qs));
+    }
+
+    /*Grab the website parameters*/
+    var qs = (function(a) {
+	    if (a == "") return {};
+	    var b = {};
+	    for (var i = 0; i < a.length; ++i)
+	    {
+	        var p=a[i].split('=', 2);
+	        if (p.length == 1)
+	            b[p[0]] = "";
+	        else
+	            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+	    }
+	    return b;
+		})(window.location.search.substr(1).split('&'));
+
+		/*Get information for a workspace*/
+    function getUsers(params) {
+        return $.ajax({
+          type: "GET",
+          async:false,
+          dataType: "json",
+          url: "/users",
+          dataType: "JSON",
+          data: params,
+        }).responseText;
+    }
+
     google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>

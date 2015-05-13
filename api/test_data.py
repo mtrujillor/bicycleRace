@@ -47,7 +47,7 @@ user_list = []
 
 def create_users():
 
-    for x in range(0, 100):
+    for x in range(0, 10):
         #Generate a user with random information
         user = get_new_user_json()
 
@@ -93,10 +93,6 @@ def users_travel(lat_a, long_a, lat_b, long_b):
         #The user will enter the place between 7am and 1pm
         d1 = datetime.strptime('10/5/2015 7:00 AM', '%d/%m/%Y %I:%M %p')
         d2 = datetime.strptime('10/5/2015 1:00 PM', '%d/%m/%Y %I:%M %p')
-
-        #Dates are represented on UTC 0 and we need UTC -5
-        d1 += timedelta(seconds=60*60*5)
-        d2 += timedelta(seconds=60*60*5)
 
         #The user will enter at any time of day
         entry_time = random_date(d1, d2)

@@ -206,18 +206,65 @@ def api_root():
 @app.route('/users' , methods = ['GET'])
 def get_users():
     if request.args:
+        dictionary = {}
         if request.args.get('user_id'):
-            return json.loads(json.dumps({'user':User.objects(id = request.args.get('user_id'))})), status.HTTP_200_OK
+            dictionary['id'] = request.args.get('user_id')
         if request.args.get('age'):
-            return json.loads(json.dumps({'user':User.objects(age = request.args.get('age'))})), status.HTTP_200_OK
+            dictionary['age'] = request.args.get('age')
         if request.args.get('gender'):
-            return json.loads(json.dumps({'user':User.objects(gender = request.args.get('gender'))})), status.HTTP_200_OK
+            dictionary['gender'] = request.args.get('gender')
         if request.args.get('disability'):
-            return json.loads(json.dumps({'user':User.objects(disability = request.args.get('disability'))})), status.HTTP_200_OK
+            dictionary['disability'] = request.args.get('disability')
         if request.args.get('healthRisk'):
-            return json.loads(json.dumps({'user':User.objects(healthRisk = request.args.get('healthRisk'))})), status.HTTP_200_OK
+            dictionary['healthRisk'] = request.args.get('healthRisk')
         if request.args.get('activity'):
-            return json.loads(json.dumps({'user':User.objects(activity = request.args.get('activity'))})), status.HTTP_200_OK
+            dictionary['activity'] = request.args.get('activity')
+        if request.args.get('date_start'):
+            time_ = float(request.args.get('date_start'))
+            time_2 = datetime.datetime.utcfromtimestamp(time_)
+            dictionary['locations__createdAt__gte'] = time_2
+        if request.args.get('date_end'):
+            time_ = float(request.args.get('date_end'))
+            time_2 = datetime.datetime.utcfromtimestamp(time_)
+            dictionary['locations__createdAt__lte'] = time_2
+        if request.args.get('age_start'):
+            dictionary['age__gte'] = request.args.get('age_start')
+        if request.args.get('age_end'):
+            dictionary['age__lte'] = request.args.get('age_end')
+        print dictionary['locations__createdAt__lte']
+        users = list(User.objects(**dictionary))
+        users_to_delete = []
+        #Clean non-important locations
+        for user in users:
+            locations_to_delete = []
+            locations = user.locations
+            for location in locations:
+                if request.args.get('date_start'):
+                    time_ = float(request.args.get('date_start'))
+                    time_2 = datetime.datetime.utcfromtimestamp(time_)
+                    if location.createdAt < time_2:
+                        locations_to_delete.append(location)
+                if request.args.get('date_end'):
+                    time_ = float(request.args.get('date_end'))
+                    time_2 = datetime.datetime.utcfromtimestamp(time_)
+                    if location.createdAt > time_2:
+                        locations_to_delete.append(location)
+
+            for location in locations_to_delete:
+                user.locations.remove(location)
+
+            if not user.locations:
+                users_to_delete.append(user)
+
+        for user in users_to_delete:
+            users.remove(user)
+
+        for user in users:
+            print user.id
+            locations = user.locations
+            print locations
+
+        return json.loads(json.dumps(users)), status.HTTP_200_OK
     else:
         return json.loads(json.dumps(User.objects)), status.HTTP_200_OK
         #return return jsonify(User.objects) #works but no pretty
@@ -250,9 +297,8 @@ def new_location():
         coord_lon= request.data.get("coord_len")
         my_point = geojson.Point((float(coord_lat), float(coord_lon)))
         l = Location.from_json(geojson.dumps(my_point, sort_keys = True))
-        print request.data
         if request.data.get("timestamp"):
-            time_ = datetime.datetime.fromtimestamp(float(request.data.get("timestamp")))
+            time_ = datetime.datetime.utcfromtimestamp(float(request.data.get("timestamp")))
             l.createdAt = time_
         user.locations.append(l)
         user.save()
