@@ -18,74 +18,138 @@
 		    <div id="mapOrigin" class="well"></div>
 		</div>
 		<div class="col-sm-6">
-		    <form role="form">
-		    	<div class="col-sm-12">
-				  <h4>Filtrar</h4>
+				<!-- Filters -->
+		    
+				<!-- Statistics -->
+				<div class="col-sm-12" style="padding:0%">
+					<div class="panel-group" id="accordion">
+				    <div class="panel panel-default" id="panel1">
+				      <div class="panel-heading">
+					      <span data-toggle="collapse" data-target="#collapseOne" href="#collapseOne" class="collapsed" style="cursor:pointer">
+					        <h3 style="margin:0%">
+						        Filtros
+						      </h3>
+				        </span>
+			        </div>
+				      <div id="collapseOne" class="panel-collapse collapse">
+				        <div class="panel-body">
+				        	<form role="form" class="col-sm-12" style="padding:0%">
+									  <div class="col-sm-6">
+									  	<div class="form-group">
+										    <label for="age_start">Edad mínima:</label>
+										    <input type="number" class="form-control" name="age_start" id="age_start" value=0>
+										  </div>
+										  <div class="form-group">
+										  	<label for="datetimepicker1">Fecha mínima:</label>
+					              <div class='input-group date' id='datetimepicker1'>
+					                <input type='text' name="date_start" class="form-control" value="10/05/2015 7:00" />
+					                <span class="input-group-addon">
+					                  <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					              </div>
+					            </div>
+										  <div class="form-group">
+										    <label for="activity">Actividad:</label>
+										    <select class="form-control" name="activity" id="activity">
+										    	<option value="">Todos</option>
+												  <option value="bike riding">Bicicleta</option>
+												  <option value="jogging">Trote</option>
+												  <option value="walking">Caminata</option>
+												  <option value="skating">Patines</option>
+												  <option value="other">Otros</option>
+												</select>
+										  </div>
+										  <div class="form-group">
+										    <label for="gender">Género:</label>
+										    <select class="form-control" name="gender" id="gender">
+										    	<option value="">N/A</option>
+												  <option value="male">Hombre</option>
+												  <option value="female">Mujer</option>
+												</select>
+										  </div>
+									  </div>
+									  <div class="col-sm-6">
+										  <div class="form-group">
+										    <label for="age_end">Edad máxima:</label>
+										    <input type="number" class="form-control" name="age_end" id="age_end" value=90>
+										  </div>
+										  <div class="form-group">
+										  	<label for="datetimepicker2">Fecha máxima:</label>
+					              <div class='input-group date' id='datetimepicker2'>
+					                <input type='text' name="date_end" class="form-control" value="10/05/2015 14:00" />
+					                <span class="input-group-addon">
+					                  <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					              </div>
+					            </div>
+					            <div class="form-group">
+										    <label for="healthRisk">Problemas de Salud:</label>
+										    <select class="form-control" name="healthRisk" id="healthRisk">
+										    	<option value="">Todos</option>
+												  <option value="cardiovascular">Cardiovascular</option>
+												  <option value="breathing">Respiratorio</option>
+												  <option value="infectious">Infeccioso</option>
+												  <option value="bones joints muscles">Huesos, articulaciones y músculos</option>
+												  <option value="other">Otros</option>
+												</select>
+										  </div>
+										</div>
+										<div class="col-sm-12">
+											<button type="submit" class="btn btn-default">Submit</button>
+										</div>
+									</form>
+				        </div>
+				    	</div>
+				    </div>
+				    <div class="panel panel-default" id="panel2">
+				      <div class="panel-heading">
+					      <span data-toggle="collapse" data-target="#collapseTwo" href="#collapseTwo" class="collapsed" style="cursor:pointer">
+					        <h3 style="margin:0%">
+						        Estadísticas
+						      </h3>
+				        </span>
+			        </div>
+				      <div id="collapseTwo" class="panel-collapse collapse in">
+				        <div class="panel-body">
+					        <div class="row" style="border-bottom: 1px solid #DFD7CA">
+					        	<div class="col-sm-6">
+					        		<h5>Tiempos</h5>
+					        		<label>Tiempo promedio de estadía:</label> <div id="tProm">00:00</div>
+											<label>Tiempo promedio en Bicicleta:</label> <div id="tPromBic">00:00</div>
+											<label>Tiempo promedio en Trote:</label> <div id="tPromTro">00:00</div>
+											<label>Tiempo promedio en Caminata:</label> <div id="tPromCam">00:00</div>
+											<label>Tiempo promedio en Patines:</label> <div id="tPromPat">00:00</div>
+											<label>Tiempo promedio en Otros:</label> <div id="tPromOtr">00:00</div>
+										</div>
+										<div class="col-sm-6">
+											<h5>Participantes por actividad</h5>
+					        		<label>Participantes:</label> <div id="numPart">0</div>
+											<label>Participantes en Bicicleta:</label> <div id="numBic">0</div>
+											<label>Participantes en Trote:</label> <div id="numTro">0</div>
+											<label>Participantes en Caminata:</label> <div id="numCam">0</div>
+											<label>Participantes en Patines:</label> <div id="numPat">0</div>
+											<label>Participantes en Otros:</label> <div id="numOtrAct">0</div>
+										</div>
+					        	<br>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-6">
+					        		<h5>Participantes por riesgos de salud</h5>
+					        		<label>Participantes:</label> <div id="numPartSal">0</div>
+											<label>Cardiovascular:</label> <div id="numCard">0</div>
+											<label>Respiratorio:</label> <div id="numResp">0</div>
+											<label>Infeccioso:</label> <div id="numInf">0</div>
+											<label>Huesos, articulaciones y músculos:</label> <div id="numHAM">0</div>
+											<label>Otros:</label> <div id="numOtrSalud">0</div>
+										</div>
+					        </div>
+				        </div>
+				      </div>
+				    </div>
 				  </div>
-				  <div class="col-sm-6">
-				  	<div class="form-group">
-					    <label for="age_start">Edad mínima:</label>
-					    <input type="number" class="form-control" name="age_start" id="age_start" value=0>
-					  </div>
-					  <div class="form-group">
-					  	<label for="datetimepicker1">Fecha mínima:</label>
-              <div class='input-group date' id='datetimepicker1'>
-                <input type='text' name="date_start" class="form-control" value="10/05/2015 7:00" />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-            </div>
-					  <div class="form-group">
-					    <label for="activity">Actividad:</label>
-					    <select class="form-control" name="activity" id="activity">
-					    	<option value="">Todos</option>
-							  <option value="bike riding">Bicicleta</option>
-							  <option value="jogging">Trote</option>
-							  <option value="walking">Caminata</option>
-							  <option value="skating">Patines</option>
-							  <option value="other">Otros</option>
-							</select>
-					  </div>
-					  <div class="form-group">
-					    <label for="gender">Género:</label>
-					    <select class="form-control" name="gender" id="gender">
-					    	<option value="">N/A</option>
-							  <option value="male">Hombre</option>
-							  <option value="female">Mujer</option>
-							</select>
-					  </div>
-				  </div>
-				  <div class="col-sm-6">
-					  <div class="form-group">
-					    <label for="age_end">Edad máxima:</label>
-					    <input type="number" class="form-control" name="age_end" id="age_end" value=90>
-					  </div>
-					  <div class="form-group">
-					  	<label for="datetimepicker2">Fecha máxima:</label>
-              <div class='input-group date' id='datetimepicker2'>
-                <input type='text' name="date_end" class="form-control" value="10/05/2015 14:00" />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-            </div>
-            <div class="form-group">
-					    <label for="healthRisk">Problemas de Salud:</label>
-					    <select class="form-control" name="healthRisk" id="healthRisk">
-					    	<option value="">Todos</option>
-							  <option value="cardiovascular">Cardiovascular</option>
-							  <option value="breathing">Respiratorio</option>
-							  <option value="infectious">Infeccioso</option>
-							  <option value="bones joints muscles">Huesos, articulaciones y músculos</option>
-							  <option value="other">Otros</option>
-							</select>
-					  </div>
-					</div>
-					<div class="col-sm-12">
-						<button type="submit" class="btn btn-default">Submit</button>
-					</div>
-				</form>
+				</div>
+				
+
 		</div>
   </div>
 
@@ -156,6 +220,9 @@
             }
         }
 
+        populateActivityData();
+        populateHealthData();
+
         function getRandomColor() {
 		    var letters = '0123456789ABCDEF'.split('');
 		    var color = '#';
@@ -181,6 +248,137 @@
 
     function getFilteredUsers() {
         return JSON.parse(getUsers(qs));
+    }
+
+    function populateActivityData(){
+
+    	var json = getFilteredUsers();
+      document.getElementById("tProm").innerHTML = get_prom_from_list(json)
+      document.getElementById("numPart").innerHTML = json.length
+
+      /*Check bike riding*/
+      var params = JSON.parse(JSON.stringify(qs));
+      if(params['activity'] && !(params['activity'] == 'bike riding')){
+      	json = []
+      }
+      else{
+      	params['activity'] = 'bike riding'
+      	json = JSON.parse(getUsers(params));
+      }
+      document.getElementById("tPromBic").innerHTML = get_prom_from_list(json)
+      document.getElementById("numBic").innerHTML = json.length
+
+      /*Check jogging*/
+      params = JSON.parse(JSON.stringify(qs));
+      if(params['activity'] && !(params['activity'] == 'jogging')){
+      	json = []
+      }
+      else{
+      	params['activity'] = 'jogging'
+      	json = JSON.parse(getUsers(params));
+      }
+      document.getElementById("tPromTro").innerHTML = get_prom_from_list(json)
+      document.getElementById("numTro").innerHTML = json.length
+
+      /*Check walking*/
+      params = JSON.parse(JSON.stringify(qs));
+      if(params['activity'] && !(params['activity'] == 'walking')){
+      	json = []
+      }
+      else{
+      	params['activity'] = 'walking'
+      	json = JSON.parse(getUsers(params));
+      }
+      document.getElementById("tPromCam").innerHTML = get_prom_from_list(json)
+      document.getElementById("numCam").innerHTML = json.length
+
+      /*Check skating*/
+      params = JSON.parse(JSON.stringify(qs));
+      if(params['activity'] && !(params['activity'] == 'skating')){
+      	json = []
+      }
+      else{
+      	params['activity'] = 'skating'
+      	json = JSON.parse(getUsers(params));
+      }
+      document.getElementById("tPromPat").innerHTML = get_prom_from_list(json)
+      document.getElementById("numPat").innerHTML = json.length
+
+      /*Check other*/
+      params = JSON.parse(JSON.stringify(qs));
+      if(params['activity'] && !(params['activity'] == 'other')){
+      	json = []
+      }
+      else{
+      	params['activity'] = 'other'
+      	json = JSON.parse(getUsers(params));
+      }
+      document.getElementById("tPromOtr").innerHTML = get_prom_from_list(json)
+      document.getElementById("numOtrAct").innerHTML = json.length
+    }
+
+    function populateHealthData(){
+    	
+    	var numTot = 0;
+    	var numCard = 0;
+    	var numResp = 0;
+    	var numInf = 0;
+    	var numHAM = 0;
+    	var numOtrSalud = 0;
+    	var json = getFilteredUsers();
+
+    	for (var i = 0; i < json.length; i++){
+    		var user = json[i];
+    		if(user['healthRisk']){
+	    		if(user['healthRisk'] == 'cardiovascular')
+	    			numCard++;
+	    		else if(user['healthRisk'] == 'breathing')
+	    			numResp++;
+	    		else if(user['healthRisk'] == 'bones joints muscles')
+	    			numHAM++;
+	    		else if(user['healthRisk'] == 'infectious')
+	    			numInf++;
+	    		else if(user['healthRisk'] == 'other')
+	    			numOtrSalud++;
+	    		numTot++;
+	    	}
+    	}
+    	document.getElementById("numPartSal").innerHTML = numTot
+    	document.getElementById("numCard").innerHTML = numCard
+    	document.getElementById("numResp").innerHTML = numResp
+    	document.getElementById("numInf").innerHTML = numInf
+    	document.getElementById("numHAM").innerHTML = numHAM
+    	document.getElementById("numOtrSalud").innerHTML = numOtrSalud
+
+    }
+
+    function get_prom_from_list(users){
+    	var tProm=0;
+
+    	for (var i = 0; i < users.length; i++) {
+        var user = users[i];
+        var locations = user['locations'];
+
+        var t_min = new Date(locations[0]['createdAt']['$date'])
+        var t_max = new Date(locations[0]['createdAt']['$date'])
+        
+        for (var j = 1; j < locations.length; j++) {
+        	var date = new Date(locations[j]['createdAt']['$date']);
+        	if(date < t_min)
+        		t_min = date
+        	if(date > t_max)
+        		t_max = date
+        }
+
+        tProm += (t_max - t_min)
+      }
+      if(users.length > 0){
+      	tProm = tProm/users.length
+      	tPromDate = new Date(tProm)
+      	return tPromDate.getUTCHours()+":"+tPromDate.getUTCMinutes()+":"+tPromDate.getUTCSeconds();
+      }
+      else
+      	return "0:00:00"
     }
 
     /*Grab the website parameters*/

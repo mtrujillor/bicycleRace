@@ -231,7 +231,6 @@ def get_users():
             dictionary['age__gte'] = request.args.get('age_start')
         if request.args.get('age_end'):
             dictionary['age__lte'] = request.args.get('age_end')
-        print dictionary['locations__createdAt__lte']
         users = list(User.objects(**dictionary))
         users_to_delete = []
         #Clean non-important locations
