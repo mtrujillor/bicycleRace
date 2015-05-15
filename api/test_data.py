@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from sqlalchemy.orm.strategy_options import loader_option
 
 __author__ = 'xubuntu'
@@ -34,6 +35,7 @@ notification_priority_list = ['low', 'high', 'medium', 'none']
 BASE_URL = 'http://0.0.0.0:5000'
 USER_PATH = BASE_URL+'/users'
 LOCATION_PATH = BASE_URL+'/users/locations'
+HAPPEND_PATH = BASE_URL+'/users/happends'
 
 #Point A
 LAT_A = 4.697815
@@ -41,7 +43,6 @@ LONG_A = -74.033142
 #Point B
 LAT_B = 4.725423
 LONG_B = -74.032455
-
 
 user_list = []
 
@@ -130,6 +131,17 @@ def users_travel(lat_a, long_a, lat_b, long_b):
             r = requests.post(LOCATION_PATH, headers=headers, data=location_request, params=payload)
             print r.url
 
+def create_happends():
+    payload = {"user_id":user_list[0]['_id']['$oid']}
+    h1 = {"coord_lat": 4.703589, "coord_len": -74.032745, "type": "security", "name": "Accidente en via", "description": "Carro chocó contra separador", "user_id":user_list[0]['_id']['$oid'], "timestamp":1431251155}
+    requests.post(HAPPEND_PATH, data=h1, params=payload)
+    h1 = {"coord_lat": 4.710261, "coord_len": -74.032938, "type": "service", "name": "Puesto de reparación", "description": "Puesto de reparación de bicicletas del distrito", "user_id":user_list[0]['_id']['$oid'], "timestamp":1431243729}
+    requests.post(HAPPEND_PATH, data=h1, params=payload)
+    h1 = {"coord_lat": 4.697494, "coord_len": -74.033024, "type": "service", "name": "Puesto de reparación", "description": "Puesto de reparación de bicicletas del distrito", "user_id":user_list[0]['_id']['$oid'], "timestamp":1431244931}
+    requests.post(HAPPEND_PATH, data=h1, params=payload)
+    h1 = {"coord_lat": 4.712849, "coord_len": -74.032766, "type": "mobility", "name": "Cierre temporal de calle", "description": "Cierre temporal de cruce por accidente", "user_id":user_list[0]['_id']['$oid'], "timestamp":1431263072}
+    requests.post(HAPPEND_PATH, data=h1, params=payload)
+
 def random_date(start, end):
     """
     This function will return a random datetime between two datetime
@@ -141,6 +153,7 @@ def random_date(start, end):
     return start + timedelta(seconds=random_second)
 
 create_users()
+create_happends()
 users_travel(LAT_A, LONG_A, LAT_B, LONG_B)
 #print json.load(urllib2.urlopen("http://0.0.0.0:5000/users"))
 

@@ -218,6 +218,27 @@
 		            title: 'Date: '+date.toUTCString()
 		        });
             }
+            var events = user['happends'];
+            for (var j = 0; j < events.length; j++) {
+            	var coordinates = events[j]['coordinates']['coordinates'];
+            	var date = new Date(events[j]['createdAt']['$date']);
+            	var latLng = new google.maps.LatLng(coordinates[0],coordinates[1]);
+            	var name = events[j]['name'];
+            	var type = events[j]['type'];
+            	var description = events[j]['description'];
+            	var icon = 'http://google-maps-icons.googlecode.com/files/accident.png';
+            	alert(type);
+            	if(type == 'service')
+            		icon = 'http://google-maps-icons.googlecode.com/files/carrepair.png'
+
+            	var marker = new google.maps.Marker({
+		            position: latLng,
+		            map: mapOrigin,
+		            draggable:false,
+		            icon: icon,
+		            title: name+'\n'+description+'\nDate: '+date.toUTCString()
+		        	});
+            }
         }
 
         populateActivityData();

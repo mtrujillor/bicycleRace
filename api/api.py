@@ -258,11 +258,6 @@ def get_users():
         for user in users_to_delete:
             users.remove(user)
 
-        for user in users:
-            print user.id
-            locations = user.locations
-            print locations
-
         return json.loads(json.dumps(users)), status.HTTP_200_OK
     else:
         return json.loads(json.dumps(User.objects)), status.HTTP_200_OK
@@ -336,8 +331,11 @@ def new_happend():
                  description = request.data.get("description"),
                  coordinates = [float(coord_lat), float(coord_lon)])
                  #,photo=image)
-
-        h.photo.put(open(request.data.get('photo', None)))
+        if request.data.get("timestamp"):
+            time_ = datetime.datetime.utcfromtimestamp(float(request.data.get("timestamp")))
+            h.createdAt = time_
+        if(request.data.get('photo')):
+            h.photo.put(open(request.data.get('photo', None)))
         #print open(request.data.get('photo', None))
         #des.image.put(open(params.get('file_path', None)))
 
